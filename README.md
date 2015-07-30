@@ -1,2 +1,2 @@
 # broadword
-A collection of broadword algorithms.
+A Go library for a collection of broadword algorithms.
