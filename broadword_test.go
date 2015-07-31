@@ -114,6 +114,16 @@ func TestFlip(t *testing.T) {
 	}
 }
 
+func TestRank1(t *testing.T) {
+	for i := 0; i < W; i++ {
+		got := w.Rank1(i)
+		want := strings.Count(ws[len(ws)-i-1:len(ws)], "1")
+		if got != want {
+			t.Errorf("got %d, want %d", got, want)
+		}
+	}
+}
+
 func BenchmarkCount1(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		w := Word(i)
@@ -160,5 +170,12 @@ func BenchmarkFlip(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		w := Word(i)
 		_ = w.Flip(i % W)
+	}
+}
+
+func BenchmarkRank1(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		w := Word(i)
+		_ = w.Rank1(i % W)
 	}
 }

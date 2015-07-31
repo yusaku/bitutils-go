@@ -80,3 +80,9 @@ func (w Word) Set0(i int) Word {
 func (w Word) Flip(i int) Word {
 	return w ^ convex[i]
 }
+
+// Rank1 returns the number of ones in w[0]...w[i].
+func (w Word) Rank1(i int) int {
+	w = w << uint(W-i-1)
+	return w.Count1()
+}
