@@ -16,7 +16,7 @@ var ws string
 
 func testCase() (w Word, ws string) {
 	r = rand.New(rand.NewSource(time.Now().UnixNano()))
-	w = Word(r.Uint32()) | Word(r.Uint32()<<32)
+	w = Word(r.Uint32()) | Word(r.Uint32())<<32
 	ws = fmt.Sprintf("%064b", w)
 	return
 }
