@@ -62,9 +62,9 @@ func TestGet(t *testing.T) {
 	}
 }
 
-func TestSet(t *testing.T) {
+func TestSet1(t *testing.T) {
 	for i := 0; i < W; i++ {
-		v := w.Set(i)
+		v := w.Set1(i)
 		for j := 0; j < W; j++ {
 			got := v.Get(j)
 			want := w.Get(j)
@@ -78,9 +78,9 @@ func TestSet(t *testing.T) {
 	}
 }
 
-func TestUnset(t *testing.T) {
+func TestSet0(t *testing.T) {
 	for i := 0; i < W; i++ {
-		v := w.Unset(i)
+		v := w.Set0(i)
 		for j := 0; j < W; j++ {
 			got := v.Get(j)
 			want := w.Get(j)
@@ -142,17 +142,17 @@ func BenchmarkGet(b *testing.B) {
 	}
 }
 
-func BenchmarkSet(b *testing.B) {
+func BenchmarkSet1(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		w := Word(i)
-		_ = w.Set(i % W)
+		_ = w.Set1(i % W)
 	}
 }
 
-func BenchmarkUnset(b *testing.B) {
+func BenchmarkSet0(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		w := Word(i)
-		_ = w.Unset(i % W)
+		_ = w.Set0(i % W)
 	}
 }
 

@@ -66,13 +66,13 @@ func (w Word) Get(i int) Word {
 	return (w >> uint(i)) & convex[0]
 }
 
-// Set sets w[i] to 1.
-func (w Word) Set(i int) Word {
+// Set1 sets w[i] to 1.
+func (w Word) Set1(i int) Word {
 	return w | convex[i]
 }
 
-// Unset sets w[i] to 0.
-func (w Word) Unset(i int) Word {
+// Set0 sets w[i] to 0.
+func (w Word) Set0(i int) Word {
 	return w & concave[i]
 }
 
