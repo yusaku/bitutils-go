@@ -22,18 +22,13 @@ const (
 // Word represents a 64-bit binary string.
 type Word uint64
 
-var (
-	// convex[i] sets only its ith bit to 1.
-	convex [W]Word
-	// concave[i] sets only its ith bit to 0.
-	concave [W]Word
-)
+// exp2[i] is 2^i.
+var exp2 [W]Word
 
 func init() {
 	for i := 0; i < W; i++ {
 		w := (Word(1) << uint(i))
-		convex[i] = w
-		concave[i] = ^w
+		exp2[i] = w
 	}
 }
 
@@ -63,22 +58,22 @@ func (w Word) Count(b int) int {
 
 // Get returns w[i].
 func (w Word) Get(i int) Word {
-	return (w >> uint(i)) & convex[0]
+	return (w >> uint(i)) & exp2[0]
 }
 
 // Set1 sets w[i] to 1.
 func (w Word) Set1(i int) Word {
-	return w | convex[i]
+	return w | exp2[i]
 }
 
 // Set0 sets w[i] to 0.
 func (w Word) Set0(i int) Word {
-	return w & concave[i]
+	return w & ^exp2[i]
 }
 
 // Flip flips w[i].
 func (w Word) Flip(i int) Word {
-	return w ^ convex[i]
+	return w ^ exp2[i]
 }
 
 // Rank1 returns the number of ones in w[0]...w[i].
