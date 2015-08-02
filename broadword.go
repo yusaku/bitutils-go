@@ -6,10 +6,8 @@ import (
 	"fmt"
 )
 
-const (
-	// W is the length of a machine word.
-	W = 64
-)
+// W is the length of a machine word.
+const W = 64
 
 // Magic constants.
 const (
