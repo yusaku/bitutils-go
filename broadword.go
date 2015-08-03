@@ -24,9 +24,8 @@ type Word uint64
 var exp2 [W]Word
 
 func init() {
-	for i := 0; i < W; i++ {
-		w := (Word(1) << uint(i))
-		exp2[i] = w
+	for i := uint(0); i < W; i++ {
+		exp2[i] = Word(1) << i
 	}
 }
 
@@ -56,7 +55,8 @@ func (w Word) Count(b int) int {
 
 // Get returns w[i].
 func (w Word) Get(i int) Word {
-	return (w >> uint(i)) & exp2[0]
+	w = w >> uint(i)
+	return w & exp2[0]
 }
 
 // Set1 sets w[i] to 1.
@@ -76,6 +76,6 @@ func (w Word) Flip(i int) Word {
 
 // Rank1 returns the number of ones in w[0]...w[i].
 func (w Word) Rank1(i int) int {
-	w = w << uint(W-i-1)
+	w = (w << uint(W-i-1))
 	return w.Count1()
 }
