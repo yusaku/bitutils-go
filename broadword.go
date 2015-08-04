@@ -79,3 +79,9 @@ func (w Word) Rank1(i int) int {
 	w = w << uint(W-i-1)
 	return w.Count1()
 }
+
+// Rank0 returns the number of zeros in w[0]...w[i].
+func (w Word) Rank0(i int) int {
+	w = ^w << uint(W-i-1)
+	return w.Count1()
+}
