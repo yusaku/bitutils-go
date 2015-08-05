@@ -24,8 +24,8 @@ type Word uint64
 var exp2 [W]Word
 
 func init() {
-	for i := uint(0); i < W; i++ {
-		exp2[i] = Word(1) << i
+	for i := 0; i < len(exp2); i++ {
+		exp2[i] = Word(1) << uint(i)
 	}
 }
 
