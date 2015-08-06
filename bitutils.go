@@ -1,6 +1,5 @@
-// Package broadword provides a collection of broadword algorithms exploiting
-// word-level parallelism.
-package broadword
+// Package bitutils provides a collection of utilities to deal with bits.
+package bitutils
 
 import (
 	"fmt"

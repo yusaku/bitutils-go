@@ -1,4 +1,4 @@
-package broadword
+package bitutils
 
 import (
 	"fmt"
