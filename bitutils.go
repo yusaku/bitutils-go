@@ -43,7 +43,8 @@ func (w Word) Count1() int {
 
 // Count0 returns the number of zeros contained in w.
 func (w Word) Count0() int {
-	return W - w.Count1()
+	w = ^w
+	return w.Count1()
 }
 
 // Count returns the number of b[0]'s contained in w.
