@@ -19,12 +19,17 @@ const (
 // Word represents a 64-bit binary string.
 type Word uint64
 
-// exp2[i] is 2^i.
-var exp2 [W]Word
+var (
+	// shift[i] is (1 << i).
+	shift [W]Word
+	// shiftNot[i] is ^shift[i].
+	shiftNot [W]Word
+)
 
 func init() {
-	for i := 0; i < len(exp2); i++ {
-		exp2[i] = Word(1) << uint(i)
+	for i := 0; i < len(shift); i++ {
+		shift[i] = Word(1) << uint(i)
+		shiftNot[i] = ^shift[i]
 	}
 }
 
@@ -56,22 +61,22 @@ func (w Word) Count(b int) int {
 // Get returns w[i].
 func (w Word) Get(i int) Word {
 	w = w >> uint(i)
-	return w & exp2[0]
+	return w & shift[0]
 }
 
 // Set1 sets w[i] to 1.
 func (w Word) Set1(i int) Word {
-	return w | exp2[i]
+	return w | shift[i]
 }
 
 // Set0 sets w[i] to 0.
 func (w Word) Set0(i int) Word {
-	return w & ^exp2[i]
+	return w & shiftNot[i]
 }
 
 // Flip flips w[i].
 func (w Word) Flip(i int) Word {
-	return w ^ exp2[i]
+	return w ^ shift[i]
 }
 
 // Rank1 returns the number of ones in w[0]...w[i].
