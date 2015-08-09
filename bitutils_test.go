@@ -54,8 +54,15 @@ func TestCount(t *testing.T) {
 
 func TestGet(t *testing.T) {
 	for i := 0; i < W; i++ {
+		j := W - i - 1 // corresponding index in ws.
+
+		n, err := strconv.ParseUint(ws[j:j+1], 10, 0)
+		if err != nil {
+			t.Errorf("ParseUint failed")
+		}
+
 		got := w.Get(i)
-		want := Word(ws[W-i-1] - '0') // since ws is reversed.
+		want := Word(n)
 		if got != want {
 			t.Errorf("got %d, want %d for %s", got, want, ws)
 		}
