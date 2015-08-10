@@ -79,6 +79,16 @@ func (w Word) Flip(i int) Word {
 	return w ^ shift[i]
 }
 
+// Lsb returns the index of the first 1 in w if w != 0 and -1 otherwise.
+func (w Word) Lsb() int {
+	if w == 0 {
+		return -1
+	} else {
+		w = (w - 1) ^ w
+		return w.Count1() - 1
+	}
+}
+
 // Rank1 returns the number of ones in w[0]...w[i].
 func (w Word) Rank1(i int) int {
 	w = w << uint(W-i-1)

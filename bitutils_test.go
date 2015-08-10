@@ -14,6 +14,14 @@ var r *rand.Rand
 var w Word
 var ws string
 
+func reverse(s string) string {
+	runes := []rune(s)
+	for i, j := 0, len(runes)-1; i < len(runes)/2; i, j = i+1, j-1 {
+		runes[i], runes[j] = runes[j], runes[i]
+	}
+	return string(runes)
+}
+
 func testCase() (w Word, ws string) {
 	r = rand.New(rand.NewSource(time.Now().UnixNano()))
 	w = Word(r.Uint32()) | Word(r.Uint32())<<32
@@ -121,6 +129,14 @@ func TestFlip(t *testing.T) {
 	}
 }
 
+func TestLsb(t *testing.T) {
+	got := w.Lsb()
+	want := strings.Index(reverse(ws), "1")
+	if got != want {
+		t.Errorf("got %d, want %d for %s", got, want, ws)
+	}
+}
+
 func TestRank1(t *testing.T) {
 	for i := 0; i < W; i++ {
 		got := w.Rank1(i)
@@ -187,6 +203,14 @@ func BenchmarkFlip(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		w := Word(i)
 		_ = w.Flip(i % W)
+	}
+}
+
+
+func BenchmarkLsb(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		w := Word(i)
+		_ = w.Lsb()
 	}
 }
 
