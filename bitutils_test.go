@@ -121,7 +121,19 @@ func TestFlip(t *testing.T) {
 }
 
 func TestLsb(t *testing.T) {
-	got, want := w.Lsb(), strings.Index(wsR, "1")
+	v := w.Lsb()
+	j := strings.Index(wsR, "1")
+	if got := v.Get(j); got != 1 {
+		t.Errorf("got %d, want %d", got, 1)
+	}
+	v = v.Flip(j)
+	if v != 0 {
+		t.Errorf("got %d, want %d", v, 0)
+	}
+}
+
+func TestLsbIdx(t *testing.T) {
+	got, want := w.LsbIdx(), strings.Index(wsR, "1")
 	if got != want {
 		t.Errorf("got %d, want %d", got, want)
 	}
@@ -198,6 +210,13 @@ func BenchmarkLsb(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		w := Word(i)
 		_ = w.Lsb()
+	}
+}
+
+func BenchmarkLsbIdx(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		w := Word(i)
+		_ = w.LsbIdx()
 	}
 }
 

@@ -79,8 +79,18 @@ func (w Word) Flip(i int) Word {
 	return w ^ shift[i]
 }
 
-// Lsb returns the index of the first 1 in w if w != 0 and -1 otherwise.
-func (w Word) Lsb() int {
+// Lsb returns a word that indicates the first 1 in w.
+func (w Word) Lsb() Word {
+	if w == 0 {
+		return 0
+	} else {
+		w = ((w - 1) ^ w) & w
+		return w
+	}
+}
+
+// LsbIdx returns the index of the first 1 in w if w != 0 and -1 otherwise.
+func (w Word) LsbIdx() int {
 	if w == 0 {
 		return -1
 	} else {
