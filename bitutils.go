@@ -81,20 +81,18 @@ func (w Word) Flip(i int) Word {
 func (w Word) Lsb() Word {
 	if w == 0 {
 		return 0
-	} else {
-		w = ((w - 1) ^ w) & w
-		return w
 	}
+	w = ((w - 1) ^ w) & w
+	return w
 }
 
 // LsbIdx returns the index of the first 1 in w if w != 0 and -1 otherwise.
 func (w Word) LsbIdx() int {
 	if w == 0 {
 		return -1
-	} else {
-		w = (w - 1) ^ w
-		return w.Count1() - 1
 	}
+	w = (w - 1) ^ w
+	return w.Count1() - 1
 }
 
 // Rank1 returns the number of ones in w[0]...w[i].
