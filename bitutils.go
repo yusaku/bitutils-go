@@ -20,10 +20,8 @@ const (
 type Word uint64
 
 var (
-	// shift[i] is (1 << i).
-	shift [W]Word
-	// shiftNot[i] is ^shift[i].
-	shiftNot [W]Word
+	shift    [W + 1]Word // shift[i] has a 1 only at i.
+	shiftNot [W + 1]Word // shiftNot[i] has a 0 only at i.
 )
 
 func init() {
