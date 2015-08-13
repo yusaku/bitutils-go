@@ -1,7 +1,6 @@
 package bitutils
 
 import (
-	"fmt"
 	"math/rand"
 	"os"
 	"strconv"
@@ -24,8 +23,8 @@ func reverse(s string) string {
 
 func testCase() (w Word, ws string) {
 	r = rand.New(rand.NewSource(time.Now().UnixNano()))
-	w = Word(r.Uint32()) | Word(r.Uint32())<<32
-	ws = fmt.Sprintf("%064b", w)
+	w = Word(r.Uint32()) | (Word(r.Uint32()) << 32)
+	ws = w.String()
 	wsR = reverse(ws)
 	return
 }
@@ -60,7 +59,7 @@ func TestCount(t *testing.T) {
 
 func TestGet(t *testing.T) {
 	for i := 0; i < W; i++ {
-		n, err := strconv.ParseUint(wsR[i:i+1], 10, 0)
+		n, err := strconv.ParseUint(wsR[i:i+1], 2, 0)
 		if err != nil {
 			t.Errorf("ParseUint failed")
 		}
