@@ -3,6 +3,7 @@ package bitutils
 
 import (
 	"fmt"
+	"strconv"
 )
 
 // W is the length of a machine word.
@@ -29,6 +30,12 @@ func init() {
 		shift[i] = Word(1) << uint(i)
 		shiftNot[i] = ^shift[i]
 	}
+}
+
+// ParseWord returns a Word from a string.
+func ParseWord(s string) (Word, error) {
+	w, err := strconv.ParseUint(s, 2, 64)
+	return Word(w), err
 }
 
 // String returns binary string w[0]w[1]...w[63].
