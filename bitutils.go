@@ -21,14 +21,18 @@ const (
 type Word uint64
 
 var (
-	shift    [W + 1]Word // shift[i] has a 1 only at i.
-	shiftNot [W + 1]Word // shiftNot[i] has a 0 only at i.
+	Shifted  [W + 1]Word // Shifted[i] has a 1 only at i.
+	ShiftedC [W + 1]Word // ShiftedC[i] has a 0 only at i.
+	Lowers   [W + 1]Word // Lowers[i] has 1s in its i LSBs.
+	Uppers   [W + 1]Word // Uppers[i] has 1s in its i MSBs.
 )
 
 func init() {
-	for i := 0; i < len(shift); i++ {
-		shift[i] = Word(1) << uint(i)
-		shiftNot[i] = ^shift[i]
+	for i := 0; i < len(Shifted); i++ {
+		Shifted[i] = Word(1) << uint(i)
+		ShiftedC[i] = ^Shifted[i]
+		Lowers[i] = Shifted[i] - 1
+		Uppers[i] = Lowers[i] << uint(W-i)
 	}
 }
 
@@ -66,22 +70,22 @@ func (w Word) Count(b int) int {
 // Get returns w[i].
 func (w Word) Get(i int) Word {
 	w = w >> uint(i)
-	return w & shift[0]
+	return w & Shifted[0]
 }
 
 // Set1 sets w[i] to 1.
 func (w Word) Set1(i int) Word {
-	return w | shift[i]
+	return w | Shifted[i]
 }
 
 // Set0 sets w[i] to 0.
 func (w Word) Set0(i int) Word {
-	return w & shiftNot[i]
+	return w & ShiftedC[i]
 }
 
 // Flip flips w[i].
 func (w Word) Flip(i int) Word {
-	return w ^ shift[i]
+	return w ^ Shifted[i]
 }
 
 // Lsb returns a word that indicates the first 1 in w.
