@@ -88,8 +88,8 @@ func (w Word) Flip(i int) Word {
 	return w ^ Shifted[i]
 }
 
-// Lsb returns a word that indicates the first 1 in w.
-func (w Word) Lsb() Word {
+// Least1 returns a word that indicates the least 1 in w.
+func (w Word) Least1() Word {
 	if w == 0 {
 		return 0
 	}
@@ -97,8 +97,9 @@ func (w Word) Lsb() Word {
 	return w
 }
 
-// LsbIdx returns the index of the first 1 in w if w != 0 and -1 otherwise.
-func (w Word) LsbIdx() int {
+// LeastIndex1 returns the index of the least 1 in w if exists and -1
+// otherwise.
+func (w Word) LeastIndex1() int {
 	if w == 0 {
 		return -1
 	}
