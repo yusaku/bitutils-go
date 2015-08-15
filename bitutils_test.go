@@ -34,6 +34,13 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
+func TestParseWord(t *testing.T) {
+	got, err := ParseWord(w.String())
+	if got == w && err != nil {
+		t.Errorf("got %d, want %d", got, w)
+	}
+}
+
 func TestCount1(t *testing.T) {
 	got, want := w.Count1(), strings.Count(ws, "1")
 	if got != want {
