@@ -11,10 +11,10 @@ const W = 64
 
 // Magic constants.
 const (
-	lowers2 = 0x5555555555555555
-	lowers4 = 0x3333333333333333
-	lowers8 = 0x0f0f0f0f0f0f0f0f
-	lowest8 = 0x0101010101010101
+	Lowers2 = 0x5555555555555555
+	Lowers4 = 0x3333333333333333
+	Lowers8 = 0x0f0f0f0f0f0f0f0f
+	Lowest8 = 0x0101010101010101
 )
 
 // Word represents a 64-bit binary string.
@@ -49,10 +49,10 @@ func (w Word) String() string {
 
 // Count1 returns the number of ones contained in w.
 func (w Word) Count1() int {
-	w -= (w >> 1) & lowers2
-	w = (w & lowers4) + ((w >> 2) & lowers4)
-	w = (w + (w >> 4)) & lowers8
-	return int((w * lowest8) >> 56)
+	w -= (w >> 1) & Lowers2
+	w = (w & Lowers4) + ((w >> 2) & Lowers4)
+	w = (w + (w >> 4)) & Lowers8
+	return int((w * Lowest8) >> 56)
 }
 
 // Count0 returns the number of zeros contained in w.
