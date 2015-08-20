@@ -11,28 +11,28 @@ const W = 64
 
 // Magic constants.
 const (
-	Lowers2 = 0x5555555555555555
-	Lowers4 = 0x3333333333333333
-	Lowers8 = 0x0f0f0f0f0f0f0f0f
-	Lowest8 = 0x0101010101010101
+	Lsh2 = 0x5555555555555555
+	Lsh4 = 0x3333333333333333
+	Lsh8 = 0x0f0f0f0f0f0f0f0f
+	Lsb8 = 0x0101010101010101
 )
 
 // Word represents a 64-bit binary string.
 type Word uint64
 
 var (
-	Shifted  [W + 1]Word // Shifted[i] has a 1 only at i.
-	ShiftedC [W + 1]Word // ShiftedC[i] has a 0 only at i.
-	Lowers   [W + 1]Word // Lowers[i] has 1s in its i LSBs.
-	Uppers   [W + 1]Word // Uppers[i] has 1s in its i MSBs.
+	Pos  [W + 1]Word // Pos[i] has a 1 only at i.
+	PosC [W + 1]Word // PosC[i] has a 0 only at i.
+	Lsh  [W + 1]Word // Lsh[i] has 1s in its i LSBs.
+	Msh  [W + 1]Word // Msh[i] has 1s in its i MSBs.
 )
 
 func init() {
-	for i := 0; i < len(Shifted); i++ {
-		Shifted[i] = Word(1) << uint(i)
-		ShiftedC[i] = ^Shifted[i]
-		Lowers[i] = Shifted[i] - 1
-		Uppers[i] = Lowers[i] << uint(W-i)
+	for i := 0; i < len(Pos); i++ {
+		Pos[i] = Word(1) << uint(i)
+		PosC[i] = ^Pos[i]
+		Lsh[i] = Pos[i] - 1
+		Msh[i] = Lsh[i] << uint(W-i)
 	}
 }
 
@@ -49,10 +49,10 @@ func (w Word) String() string {
 
 // Count1 returns the number of ones contained in w.
 func (w Word) Count1() int {
-	w -= (w >> 1) & Lowers2
-	w = (w & Lowers4) + ((w >> 2) & Lowers4)
-	w = (w + (w >> 4)) & Lowers8
-	return int((w * Lowest8) >> 56)
+	w -= (w >> 1) & Lsh2
+	w = (w & Lsh4) + ((w >> 2) & Lsh4)
+	w = (w + (w >> 4)) & Lsh8
+	return int((w * Lsb8) >> 56)
 }
 
 // Count0 returns the number of zeros contained in w.
@@ -70,22 +70,22 @@ func (w Word) Count(b int) int {
 // Get returns w[i].
 func (w Word) Get(i int) Word {
 	w = w >> uint(i)
-	return w & Shifted[0]
+	return w & Pos[0]
 }
 
 // Set1 sets w[i] to 1.
 func (w Word) Set1(i int) Word {
-	return w | Shifted[i]
+	return w | Pos[i]
 }
 
 // Set0 sets w[i] to 0.
 func (w Word) Set0(i int) Word {
-	return w & ShiftedC[i]
+	return w & PosC[i]
 }
 
 // Flip flips w[i].
 func (w Word) Flip(i int) Word {
-	return w ^ Shifted[i]
+	return w ^ Pos[i]
 }
 
 // Least1 returns a word that indicates the least 1 in w.
