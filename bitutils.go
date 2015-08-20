@@ -14,7 +14,11 @@ const (
 	Lsh2 = 0x5555555555555555
 	Lsh4 = 0x3333333333333333
 	Lsh8 = 0x0f0f0f0f0f0f0f0f
+
 	Lsb8 = 0x0101010101010101
+
+	Msb2 = 0xaaaaaaaaaaaaaaaa
+	Msb8 = 0x8080808080808080
 )
 
 // Word represents a 64-bit binary string.
@@ -117,4 +121,30 @@ func (w Word) Rank1(i int) int {
 func (w Word) Rank0(i int) int {
 	w = ^w << uint(W-i-1)
 	return w.Count1()
+}
+
+func (w Word) zcmp8() Word {
+	w = w | ((w | Msb8) - Lsb8)
+	return (w & Msb8) >> 7
+}
+
+func (w Word) leq8(v Word) Word {
+	w = (((v | Msb8) - (w & ^Word(Lsb8))) ^ w) ^ v
+	return (w & Msb8) >> 7
+}
+
+// Select1 returns the ith 1 in w.
+func (w Word) Select1(i int) int {
+	s := w - ((w & Msb2) >> 1)
+	s = (s & Lsh4) + ((s >> 2) & Lsh4)
+	s = ((s + (s >> 4)) & Lsh8) * Lsb8
+	b := ((s.leq8(Word(i)*Lsb8) * Lsb8) >> 53) & ^Word(0x0111)
+	l := Word(i) - (((s << 8) >> b) & 0xff)
+	s = ((((w >> b) & 0xff) * Lsb8) & 0x8040201008040201).zcmp8() * Lsb8
+	if w = b + ((s.leq8(l * Lsb8) * Lsb8) >> 56); w != 0x48 {
+		return int(w)
+	} else {
+		return -1
+	}
+
 }
