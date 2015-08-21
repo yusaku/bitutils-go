@@ -3,8 +3,6 @@ package bitutils
 import (
 	"math/rand"
 	"os"
-	"strconv"
-	"strings"
 	"testing"
 	"time"
 )
@@ -42,36 +40,64 @@ func TestParseWord(t *testing.T) {
 }
 
 func TestCount1(t *testing.T) {
-	got, want := w.Count1(), strings.Count(ws, "1")
-	if got != want {
+	var want int
+	for i := 0; i < len(wsR); i++ {
+		if wsR[i] == '1' {
+			want += 1
+		}
+	}
+
+	if got := w.Count1(); got != want {
 		t.Errorf("got %d, want %d", got, want)
 	}
 }
 
 func TestCount0(t *testing.T) {
-	got, want := w.Count0(), strings.Count(ws, "0")
-	if got != want {
+	var want int
+	for i := 0; i < len(wsR); i++ {
+		if wsR[i] == '0' {
+			want += 1
+		}
+	}
+
+	if got := w.Count0(); got != want {
 		t.Errorf("got %d, want %d", got, want)
 	}
 }
 
 func TestCount(t *testing.T) {
-	for i := 0; i < 2; i++ {
-		got, want := w.Count(i), strings.Count(ws, strconv.Itoa(i))
-		if got != want {
+	for b := 0; b < 2; b++ {
+		var want int
+		for i := 0; i < len(wsR); i++ {
+			if b == 1 {
+				if wsR[i] == '1' {
+					want += 1
+				}
+			} else {
+				if wsR[i] == '0' {
+					want += 1
+				}
+			}
+		}
+
+		if got := w.Count(b); got != want {
 			t.Errorf("got %d, want %d", got, want)
 		}
 	}
 }
 
 func TestGet(t *testing.T) {
-	for i := 0; i < W; i++ {
-		n, err := strconv.ParseUint(wsR[i:i+1], 2, 0)
-		if err != nil {
-			t.Errorf("ParseUint failed")
+	var wants [W]Word
+	for i := 0; i < len(wsR); i++ {
+		if wsR[i] == '1' {
+			wants[i] = 1
+		} else {
+			wants[i] = 0
 		}
-		got, want := w.Get(i), Word(n)
-		if got != want {
+	}
+
+	for i := 0; i < W; i++ {
+		if got, want := w.Get(i), wants[i]; got != want {
 			t.Errorf("got %d, want %d", got, want)
 		}
 	}
@@ -127,37 +153,62 @@ func TestFlip(t *testing.T) {
 }
 
 func TestLeast1(t *testing.T) {
-	v := w.Least1()
-	j := strings.Index(wsR, "1")
-	if got := v.Get(j); got != 1 {
-		t.Errorf("got %d, want %d", got, 1)
+	var want Word
+	for i := 0; i < len(wsR); i++ {
+		if wsR[i] == '1' {
+			want = want.Set1(i)
+			break
+		}
 	}
-	v = v.Flip(j)
-	if v != 0 {
-		t.Errorf("got %d, want %d", v, 0)
+
+	if got := w.Least1(); got != want {
+		t.Errorf("got %d, want %d", got, want)
 	}
 }
 
 func TestLeastIndex1(t *testing.T) {
-	got, want := w.LeastIndex1(), strings.Index(wsR, "1")
-	if got != want {
+	var want int
+	for i := 0; i < len(wsR); i++ {
+		if wsR[i] == '1' {
+			want = i
+			break
+		}
+	}
+
+	if got := w.LeastIndex1(); got != want {
 		t.Errorf("got %d, want %d", got, want)
 	}
 }
 
 func TestRank1(t *testing.T) {
+	var wants [W]int
+	var n1 int
+	for i := 0; i < len(wsR); i++ {
+		if wsR[i] == '1' {
+			n1 += 1
+		}
+		wants[i] = n1
+	}
+
 	for i := 0; i < W; i++ {
-		got, want := w.Rank1(i), strings.Count(wsR[0:i+1], "1")
-		if got != want {
+		if got, want := w.Rank1(i), wants[i]; got != want {
 			t.Errorf("got %d, want %d", got, want)
 		}
 	}
 }
 
 func TestRank0(t *testing.T) {
+	var wants [W]int
+	var n0 int
+	for i := 0; i < len(wsR); i++ {
+		if wsR[i] == '0' {
+			n0 += 1
+		}
+		wants[i] = n0
+	}
+
 	for i := 0; i < W; i++ {
-		got, want := w.Rank0(i), strings.Count(wsR[0:i+1], "0")
-		if got != want {
+		if got, want := w.Rank0(i), wants[i]; got != want {
 			t.Errorf("got %d, want %d", got, want)
 		}
 	}
