@@ -9,7 +9,7 @@ import (
 
 var r *rand.Rand
 var w Word
-var ws, wsR string
+var ws string
 
 func reverse(s string) string {
 	runes := []rune(s)
@@ -22,8 +22,7 @@ func reverse(s string) string {
 func testCase() (w Word, ws string) {
 	r = rand.New(rand.NewSource(time.Now().UnixNano()))
 	w = Word(r.Uint32()) | (Word(r.Uint32()) << 32)
-	ws = w.String()
-	wsR = reverse(ws)
+	ws = reverse(w.String())
 	return
 }
 
@@ -41,8 +40,8 @@ func TestParseWord(t *testing.T) {
 
 func TestCount1(t *testing.T) {
 	var want int
-	for i := 0; i < len(wsR); i++ {
-		if wsR[i] == '1' {
+	for i := 0; i < len(ws); i++ {
+		if ws[i] == '1' {
 			want += 1
 		}
 	}
@@ -54,8 +53,8 @@ func TestCount1(t *testing.T) {
 
 func TestCount0(t *testing.T) {
 	var want int
-	for i := 0; i < len(wsR); i++ {
-		if wsR[i] == '0' {
+	for i := 0; i < len(ws); i++ {
+		if ws[i] == '0' {
 			want += 1
 		}
 	}
@@ -68,13 +67,13 @@ func TestCount0(t *testing.T) {
 func TestCount(t *testing.T) {
 	for b := 0; b < 2; b++ {
 		var want int
-		for i := 0; i < len(wsR); i++ {
+		for i := 0; i < len(ws); i++ {
 			if b == 1 {
-				if wsR[i] == '1' {
+				if ws[i] == '1' {
 					want += 1
 				}
 			} else {
-				if wsR[i] == '0' {
+				if ws[i] == '0' {
 					want += 1
 				}
 			}
@@ -88,8 +87,8 @@ func TestCount(t *testing.T) {
 
 func TestGet(t *testing.T) {
 	var wants [W]Word
-	for i := 0; i < len(wsR); i++ {
-		if wsR[i] == '1' {
+	for i := 0; i < len(ws); i++ {
+		if ws[i] == '1' {
 			wants[i] = 1
 		} else {
 			wants[i] = 0
@@ -154,8 +153,8 @@ func TestFlip(t *testing.T) {
 
 func TestLeast1(t *testing.T) {
 	var want Word
-	for i := 0; i < len(wsR); i++ {
-		if wsR[i] == '1' {
+	for i := 0; i < len(ws); i++ {
+		if ws[i] == '1' {
 			want = want.Set1(i)
 			break
 		}
@@ -168,8 +167,8 @@ func TestLeast1(t *testing.T) {
 
 func TestLeastIndex1(t *testing.T) {
 	var want int
-	for i := 0; i < len(wsR); i++ {
-		if wsR[i] == '1' {
+	for i := 0; i < len(ws); i++ {
+		if ws[i] == '1' {
 			want = i
 			break
 		}
@@ -183,8 +182,8 @@ func TestLeastIndex1(t *testing.T) {
 func TestRank1(t *testing.T) {
 	var wants [W]int
 	var n1 int
-	for i := 0; i < len(wsR); i++ {
-		if wsR[i] == '1' {
+	for i := 0; i < len(ws); i++ {
+		if ws[i] == '1' {
 			n1 += 1
 		}
 		wants[i] = n1
@@ -200,8 +199,8 @@ func TestRank1(t *testing.T) {
 func TestRank0(t *testing.T) {
 	var wants [W]int
 	var n0 int
-	for i := 0; i < len(wsR); i++ {
-		if wsR[i] == '0' {
+	for i := 0; i < len(ws); i++ {
+		if ws[i] == '0' {
 			n0 += 1
 		}
 		wants[i] = n0
@@ -217,8 +216,8 @@ func TestRank0(t *testing.T) {
 func TestSelect1(t *testing.T) {
 	var wants [W]int
 	var n1 int
-	for i := 0; i < len(wsR); i++ {
-		if wsR[i] == 1 {
+	for i := 0; i < len(ws); i++ {
+		if ws[i] == 1 {
 			wants[n1] = i
 			n1 += 1
 		}
