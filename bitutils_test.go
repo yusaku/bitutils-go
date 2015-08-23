@@ -68,14 +68,8 @@ func TestCount(t *testing.T) {
 	for b := 0; b < 2; b++ {
 		var want int
 		for i := 0; i < len(ws); i++ {
-			if b == 1 {
-				if ws[i] == '1' {
-					want += 1
-				}
-			} else {
-				if ws[i] == '0' {
-					want += 1
-				}
+			if b == int(ws[i] - '0') {
+				want += 1
 			}
 		}
 
