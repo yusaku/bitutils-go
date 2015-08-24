@@ -15,9 +15,16 @@ const (
 	Lsh4 = 0x3333333333333333
 	Lsh8 = 0x0f0f0f0f0f0f0f0f
 
+	Msh2 = 0xaaaaaaaaaaaaaaaa
+	Msh4 = 0xcccccccccccccccc
+	Msh8 = 0xf0f0f0f0f0f0f0f0
+
+	Lsb2 = 0x5555555555555555
+	Lsb4 = 0x1111111111111111
 	Lsb8 = 0x0101010101010101
 
 	Msb2 = 0xaaaaaaaaaaaaaaaa
+	Msb4 = 0x8888888888888888
 	Msb8 = 0x8080808080808080
 )
 
