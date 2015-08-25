@@ -153,5 +153,4 @@ func (w Word) Select1(i int) int {
 	} else {
 		return -1
 	}
-
 }
