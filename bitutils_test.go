@@ -225,6 +225,25 @@ func TestSelect1(t *testing.T) {
 	}
 }
 
+func TestSelect0(t *testing.T) {
+	var wants [W]int
+	var n0 int
+	for i := 0; i < len(ws); i++ {
+		if ws[i] == 0 {
+			wants[n0] = i
+			n0 += 1
+		}
+	}
+
+	for i := 0; i < n0; i++ {
+		got, want := w.Select0(i), wants[i]
+		if got != want {
+			t.Errorf("got %d, want %d", got, want)
+		}
+	}
+}
+
+
 func BenchmarkCount1(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		w := Word(i)
@@ -306,5 +325,12 @@ func BenchmarkSelect1(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		w := Word(i)
 		_ = w.Select1(i % W)
+	}
+}
+
+func BenchmarkSelect0(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		w := Word(i)
+		_ = w.Select0(i % W)
 	}
 }

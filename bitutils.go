@@ -154,3 +154,9 @@ func (w Word) Select1(i int) int {
 		return -1
 	}
 }
+
+// Select0 returns the ith 0 in w.
+func (w Word) Select0(i int) int {
+	w = ^w
+	return w.Select1(i)
+}
