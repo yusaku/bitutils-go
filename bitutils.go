@@ -34,16 +34,16 @@ type Word uint64
 var (
 	Pos  [W + 1]Word // Pos[i] has a 1 only at i.
 	PosC [W + 1]Word // PosC[i] has a 0 only at i.
-	Lsh  [W + 1]Word // Lsh[i] has 1s in its i LSBs.
-	Msh  [W + 1]Word // Msh[i] has 1s in its i MSBs.
+	LsbN [W + 1]Word // LsbN[i] has 1s in its i LSBs.
+	MsbN [W + 1]Word // MsbN[i] has 1s in its i MSBs.
 )
 
 func init() {
 	for i := 0; i < len(Pos); i++ {
 		Pos[i] = Word(1) << uint(i)
 		PosC[i] = ^Pos[i]
-		Lsh[i] = Pos[i] - 1
-		Msh[i] = Lsh[i] << uint(W-i)
+		LsbN[i] = Pos[i] - 1
+		MsbN[i] = LsbN[i] << uint(W-i)
 	}
 }
 
