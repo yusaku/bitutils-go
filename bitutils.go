@@ -73,8 +73,7 @@ func (w Word) Count0() int {
 
 // Count returns the number of b[0]'s contained in w.
 func (w Word) Count(b int) int {
-	w = w ^ (^Word(0) + Word(b))
-	return w.Count1()
+	return ((LsbN[W] + Word(b)) ^ w).Count1()
 }
 
 // Get returns w[i].
