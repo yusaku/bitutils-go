@@ -32,17 +32,17 @@ const (
 type Word uint64
 
 var (
-	Pos  [W + 1]Word // Pos[i] has a 1 only at i.
-	PosC [W + 1]Word // PosC[i] has a 0 only at i.
+	Idx  [W + 1]Word // Idx[i] has a 1 only at i.
+	IdxC [W + 1]Word // IdxC[i] has a 0 only at i.
 	LsbN [W + 1]Word // LsbN[i] has 1s in its i LSBs.
 	MsbN [W + 1]Word // MsbN[i] has 1s in its i MSBs.
 )
 
 func init() {
-	for i := 0; i < len(Pos); i++ {
-		Pos[i] = Word(1) << uint(i)
-		PosC[i] = ^Pos[i]
-		LsbN[i] = Pos[i] - 1
+	for i := 0; i < len(Idx); i++ {
+		Idx[i] = Word(1) << uint(i)
+		IdxC[i] = ^Idx[i]
+		LsbN[i] = Idx[i] - 1
 		MsbN[i] = LsbN[i] << uint(W-i)
 	}
 }
@@ -78,23 +78,22 @@ func (w Word) Count(b int) int {
 
 // Get returns w[i].
 func (w Word) Get(i int) Word {
-	w = w >> uint(i)
-	return w & Pos[0]
+	return (w >> uint(i)) & Idx[0]
 }
 
 // Set1 sets w[i] to 1.
 func (w Word) Set1(i int) Word {
-	return w | Pos[i]
+	return w | Idx[i]
 }
 
 // Set0 sets w[i] to 0.
 func (w Word) Set0(i int) Word {
-	return w & PosC[i]
+	return w & IdxC[i]
 }
 
 // Flip flips w[i].
 func (w Word) Flip(i int) Word {
-	return w ^ Pos[i]
+	return w ^ Idx[i]
 }
 
 // Least1 returns a word that indicates the least 1 in w.
