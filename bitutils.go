@@ -148,7 +148,7 @@ func (w Word) Select1(i int) int {
 	b := ((s.leq8(Word(i)*Lsb8) * Lsb8) >> 53) & ^Word(0x0111)
 	l := Word(i) - (((s << 8) >> b) & 0xff)
 	s = ((((w >> b) & 0xff) * Lsb8) & 0x8040201008040201).zcmp8() * Lsb8
-	if w = b + ((s.leq8(l * Lsb8) * Lsb8) >> 56); w != 0x48 {
+	if w = b + ((s.leq8(l*Lsb8) * Lsb8) >> 56); w != 0x48 {
 		return int(w)
 	} else {
 		return -1
