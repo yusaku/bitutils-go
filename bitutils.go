@@ -120,14 +120,12 @@ func (w Word) LeastIndex1() int {
 
 // Rank1 returns the number of ones in w[0]...w[i].
 func (w Word) Rank1(i int) int {
-	w = w << uint(W-i-1)
-	return w.Count1()
+	return (LsbN[i+1] & w).Count1()
 }
 
 // Rank0 returns the number of zeros in w[0]...w[i].
 func (w Word) Rank0(i int) int {
-	w = ^w << uint(W-i-1)
-	return w.Count1()
+	return (MsbN[W-i-1] | w).Count0()
 }
 
 func (w Word) zcmp8() Word {
