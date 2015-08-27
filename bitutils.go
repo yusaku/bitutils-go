@@ -101,8 +101,7 @@ func (w Word) Least1() Word {
 	if w == 0 {
 		return 0
 	}
-	w = ((w - 1) ^ w) & w
-	return w
+	return ((w - 1) ^ w) & w
 }
 
 // LeastIndex1 returns the index of the least 1 in w if exists and -1
@@ -111,8 +110,7 @@ func (w Word) LeastIndex1() int {
 	if w == 0 {
 		return -1
 	}
-	w = (w - 1) ^ w
-	return w.Count1() - 1
+	return ((w - 1) ^ w).Count1() - 1
 }
 
 // Rank1 returns the number of ones in w[0]...w[i].
@@ -126,13 +124,11 @@ func (w Word) Rank0(i int) int {
 }
 
 func (w Word) zcmp8() Word {
-	w = w | ((w | Msb8) - Lsb8)
-	return (w & Msb8) >> 7
+	return ((w | ((w | Msb8) - Lsb8)) & Msb8) >> 7
 }
 
 func (w Word) leq8(v Word) Word {
-	w = (((v | Msb8) - (w & ^Word(Lsb8))) ^ w) ^ v
-	return (w & Msb8) >> 7
+	return (((((v | Msb8) - (w & ^Word(Lsb8))) ^ w) ^ v) & Msb8) >> 7
 }
 
 // Select1 returns the ith 1 in w.
@@ -152,6 +148,5 @@ func (w Word) Select1(i int) int {
 
 // Select0 returns the ith 0 in w.
 func (w Word) Select0(i int) int {
-	w = ^w
-	return w.Select1(i)
+	return (^w).Select1(i)
 }
