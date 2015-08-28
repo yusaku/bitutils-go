@@ -26,6 +26,8 @@ const (
 	Msb2 = 0xaaaaaaaaaaaaaaaa
 	Msb4 = 0x8888888888888888
 	Msb8 = 0x8080808080808080
+
+	Idx8 = 0x8040201008040201
 )
 
 // Word represents a 64-bit binary string.
@@ -138,7 +140,7 @@ func (w Word) Select1(i int) int {
 	s = ((s + (s >> 4)) & Lsh8) * Lsb8
 	b := ((s.leq8(Word(i)*Lsb8) * Lsb8) >> 53) & ^Word(0x0111)
 	l := Word(i) - (((s << 8) >> b) & 0xff)
-	s = ((((w >> b) & 0xff) * Lsb8) & 0x8040201008040201).zcmp8() * Lsb8
+	s = ((((w >> b) & 0xff) * Lsb8) & Idx8).zcmp8() * Lsb8
 	if w = b + ((s.leq8(l*Lsb8) * Lsb8) >> 56); w != 0x48 {
 		return int(w)
 	} else {
